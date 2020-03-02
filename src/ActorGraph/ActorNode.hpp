@@ -17,7 +17,7 @@ class ActorNode {
     string actorName;
     vector<MovieNode*> movieList;
 
-    ActorNode(string name) : actorName(name)
+    ActorNode(string name) : actorName(name) {}
 };
-fd
+
 #endif  // ACTORNODE_HPP

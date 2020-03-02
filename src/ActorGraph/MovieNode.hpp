@@ -9,6 +9,8 @@
 
 using namespace std;
 
+class ActorNode;
+
 class MovieNode {
   public:
     string title;
