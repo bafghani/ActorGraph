@@ -7,6 +7,8 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include "ActorNode.hpp"
+#include "MovieNode.hpp"
 
 using namespace std;
 
@@ -53,6 +55,27 @@ bool ActorGraph::buildGraphFromFile(const char* filename) {
         int year = stoi(record[2]);
 
         // TODO: we have an actor/movie relationship to build the graph
+
+        ActorNode* currActor = actorsMap[actor];  // checks for actor in map
+        if (currActor == nullptr) {
+            currActor = new ActorNode(actor);  // creates actor node
+            actorsMap[actor] = currActor;      // sets key for actors map
+        }
+
+        // concatenate movie title and year into a single string
+        string movieTitle = title + to_string(year);
+
+        MovieNode* currMovie = moviesMap[movieTitle];  // checks for movie in
+                                                       // map
+        if (currMovie == nullptr) {
+            currMovie = new MovieNode(movieTitle);  // creates movie node
+            moviesMap[movieTitle] = currMovie;      // sets key for movies map
+        }
+
+        currActor->movieList.push_back(
+            currMovie);  // add current movie to list of actor's movies
+        currMovie->actorsList.push_back(
+            currActor);  // add current actor to the movie's actor list
     }
 
     // if failed to read the file, clear the graph and return

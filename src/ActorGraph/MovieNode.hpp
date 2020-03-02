@@ -12,9 +12,10 @@ using namespace std;
 class MovieNode {
   public:
     string title;
-    unsigned int year;
 
-    vector<ActorNode*> actors;
+    vector<ActorNode*> actorsList;
+
+    MovieNode(string movieTitle) : title(movieTitle) {}
 };
 
 #endif  // MOVIENODE_HPP

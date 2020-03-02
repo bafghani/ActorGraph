@@ -8,13 +8,16 @@
 
 using namespace std;
 
+class MovieNode;
 /**
  * Actor nodes act as vertices
  */
 class ActorNode {
   public:
     string actorName;
-    vector<MovieNode*> movies;
-};
+    vector<MovieNode*> movieList;
 
+    ActorNode(string name) : actorName(name)
+};
+fd
 #endif  // ACTORNODE_HPP

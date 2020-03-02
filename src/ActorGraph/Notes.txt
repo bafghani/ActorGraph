@@ -1,0 +1,53 @@
+Alright, so we have the unordered map of each. 
+
+Actors: (vertices)
+I pushed the movie pointers so that each Actor has a vector of pointers to the movies their in.
+
+Movies: (edge)
+I pushed the actor pointers so that each movie has a vector of pointers to the cast.
+
+Since both hold vectors of each, by default they are connected. When we go to do BFS, we can find
+the nearest neighbor of each actor very easily.
+
+    Methodology:
+        1. Recieve input from user of actor1 and actor2 and see if they exist in map.
+        2. If they exist, take actor and iterate movies, then look at the moviecast. 
+           those are now neighbors of actor1. 
+
+           //some psuedo
+           
+           if(actor2 == neighbor1) {
+               pathfound
+           }
+           if else (actor2 != neighbor1) {
+               
+                   
+                   for(actor2->MovieList) {
+                   getNeighbors();
+
+                   if(neighbor2 == neighbor1) {
+                    pathfound;
+               
+               }
+               
+               
+                if (neighbor2 != neighbor1) {
+                   for(neighbor2[i]->movieList) {
+                       getNeighbors();
+
+                       if(neighbor3 = neighbor1) {
+                           pathfound;
+                       }
+
+                   }
+
+               }
+               4 or 5 iterations, // havent done math yet
+           }
+           else {
+               return (no path!);
+           }
+
+
+thats where I am going with this. 
+            
