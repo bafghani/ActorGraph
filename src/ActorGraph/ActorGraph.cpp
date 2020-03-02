@@ -98,4 +98,11 @@ void ActorGraph::predictLink(const string& queryActor,
                              unsigned int numPrediction) {}
 
 /* TODO */
-ActorGraph::~ActorGraph() {}
+ActorGraph::~ActorGraph() {
+    for (auto it = actorsMap.begin(); it != actorsMap.end(); ++it) {
+        delete it->second;
+    }
+    for (auto it = moviesMap.begin(); it != moviesMap.end(); ++it) {
+        delete it->second;
+    }
+}
