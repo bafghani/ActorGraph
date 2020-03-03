@@ -106,7 +106,7 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
     // if we are here, both actors exist
     explored.push(actor1);
     while (!explored.empty()) {
-        ActorNode* curr = explored.front();
+        curr = explored.front();
         if (curr == actor2) {
             break;  // we are done
         }
