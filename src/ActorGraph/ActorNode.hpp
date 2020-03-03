@@ -16,7 +16,10 @@ class ActorNode {
   public:
     string actorName;
     vector<MovieNode*> movieList;
-
+    vector<ActorNode*> neighbors;
+    bool visited = false;
+    ActorNode* prev = 0;
+    MovieNode* path = 0;
     ActorNode(string name) : actorName(name) {}
 };
 

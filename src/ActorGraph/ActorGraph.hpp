@@ -6,6 +6,7 @@
 #define ACTORGRAPH_HPP
 
 #include <iostream>
+#include <list>
 #include <unordered_map>
 #include <vector>
 #include "ActorNode.hpp"
@@ -31,6 +32,7 @@ class ActorGraph {
     /* TODO */
     void BFS(const string& fromActor, const string& toActor,
              string& shortestPath);
+    void buildPath(ActorNode* curr, string& shortestPath);
 
     /* TODO */
     void predictLink(const string& queryActor, vector<string>& predictionNames,
