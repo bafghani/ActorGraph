@@ -91,7 +91,7 @@ bool Map::addEdge(const string& name1, const string& name2) {
 /* TODO */
 void Map::Dijkstra(const string& from, const string& to,
                    vector<Vertex*>& shortestPath) {
-    queue<Vertex*> explored;
+    priority_queue<Vertex*, vector<Vertex*>, VertexCmp> explored;
     Vertex* src = vertices[vertexId[from]];
     Vertex* dest = vertices[vertexId[to]];
     if (src == 0 || dest == 0) {
@@ -99,26 +99,34 @@ void Map::Dijkstra(const string& from, const string& to,
     }
     Vertex* curr;
     Vertex* neighbor;
+    unsigned int currDist;
 
     src->dist = 0;
     explored.push(src);
 
     while (!explored.empty()) {
-        curr = explored.front();
+        curr = explored.top();
+        explored.pop();
+        if (!curr->visited) {
+            curr->visited = true;
+        }
 
         if (curr == dest) {
             break;  // we are done
         }
-        curr->visited = true;
-        explored.pop();
         for (unsigned int i = 0; i < curr->outEdges.size(); i++) {
             Edge* currEdge = curr->outEdges[i];
+            currDist = curr->dist + currEdge->weight;
             neighbor = currEdge->target;
-            if (!neighbor->visited && neighbor->dist == INT_MAX) {
-                neighbor->dist += curr->dist;
+            if (curr->path ==
+                currEdge) {  // check if current edge has already been traversed
+                break;
+            }
+            if (!neighbor->visited && currDist < neighbor->dist) {
+                neighbor->dist = currDist;
                 neighbor->prev = curr;
-                explored.push(neighbor);
                 neighbor->path = currEdge;
+                explored.push(neighbor);
             }
         }
     }

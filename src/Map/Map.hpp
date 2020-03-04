@@ -12,7 +12,18 @@
 #include "Edge.hpp"
 
 using namespace std;
-
+class VertexCmp {
+  public:
+    bool operator()(Vertex* lhs, Vertex* rhs) const {
+        return lhs->dist > rhs->dist;
+    }
+};
+class EdgeCmp {
+  public:
+    bool operator()(Edge* lhs, Edge* rhs) const {
+        return lhs->weight > rhs->weight;
+    }
+};
 class Map {
   private:
     // vector storing vertices in the map: id of each vertex = index in vector
