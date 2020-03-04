@@ -1,8 +1,10 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
+#include <bits/stdc++.h>
 #include <fstream>
 #include <iostream>
+#include <queue>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -46,6 +48,7 @@ class Map {
     void Dijkstra(const string& from, const string& to,
                   vector<Vertex*>& shortestPath);
 
+    void buildPath(Vertex* curr, vector<Vertex*>& shortestPath);
     /* TODO */
     void findMST(vector<Edge*>& MST);
 

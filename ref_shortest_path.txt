@@ -1,0 +1,4 @@
+Warren - CSE - WarrenLectureHall - PriceCenter - Mandeville - MainGym - Revelle
+Revelle - MainGym - Mandeville - PriceCenter - WarrenLectureHall - CSE - Warren
+Rady - RIMAC - SupercomputerCenter - HopkinsParking - Geisel - PriceCenter - CenterHall - BioMedLib
+Sixth - MAE - WarrenLectureHall - Jacobs - HopkinsParking - SupercomputerCenter - RIMAC - Rady

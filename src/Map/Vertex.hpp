@@ -1,6 +1,7 @@
 #ifndef VERTEX_HPP
 #define VERTEX_HPP
 
+#include <bits/stdc++.h>
 #include <string>
 #include <vector>
 
@@ -19,7 +20,10 @@ class Vertex {
                              // all outgoing edges
 
     // TODO: you may add more member variables here
-
+    int dist = INT_MAX;
+    Vertex* prev = 0;
+    Edge* path = 0;
+    bool visited = false;
     /* The constructor that creates a new vertex */
     Vertex(const string& name, float x, float y) : name(name), x(x), y(y) {}
 };

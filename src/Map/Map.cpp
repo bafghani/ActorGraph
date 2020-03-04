@@ -90,7 +90,62 @@ bool Map::addEdge(const string& name1, const string& name2) {
 
 /* TODO */
 void Map::Dijkstra(const string& from, const string& to,
-                   vector<Vertex*>& shortestPath) {}
+                   vector<Vertex*>& shortestPath) {
+    queue<Vertex*> explored;
+    Vertex* src = vertices[vertexId[from]];
+    Vertex* dest = vertices[vertexId[to]];
+    if (src == 0 || dest == 0) {
+        return;  // vertices dont exist
+    }
+    Vertex* curr;
+    Vertex* neighbor;
+
+    src->dist = 0;
+    explored.push(src);
+
+    while (!explored.empty()) {
+        curr = explored.front();
+
+        if (curr == dest) {
+            break;  // we are done
+        }
+        curr->visited = true;
+        explored.pop();
+        for (unsigned int i = 0; i < curr->outEdges.size(); i++) {
+            Edge* currEdge = curr->outEdges[i];
+            neighbor = currEdge->target;
+            if (!neighbor->visited && neighbor->dist == INT_MAX) {
+                neighbor->dist += curr->dist;
+                neighbor->prev = curr;
+                explored.push(neighbor);
+                neighbor->path = currEdge;
+            }
+        }
+    }
+    if (curr != dest) {  // no path exists
+        return;
+    }
+    if (dest->prev) {  // path exists, build it
+        buildPath(dest, shortestPath);
+    }
+    // reset vertices data
+    for (auto i = 0; i < vertices.size(); i++) {
+        vertices[i]->visited = false;
+        vertices[i]->prev = 0;
+        vertices[i]->path = 0;
+        vertices[i]->dist = INT_MAX;
+    }
+}
+
+void Map::buildPath(Vertex* curr, vector<Vertex*>& shortestPath) {
+    if (curr->prev == 0) {
+        shortestPath.push_back(curr);
+        return;
+    } else {
+        buildPath(curr->prev, shortestPath);
+        shortestPath.push_back(curr);
+    }
+}
 
 /* TODO */
 void Map::findMST(vector<Edge*>& MST) {}

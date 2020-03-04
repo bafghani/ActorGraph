@@ -1,0 +1,4 @@
+Warren - CSE - MAE - PriceCenter - APM - MainGym - Revelle
+Revelle - GalbraithHall - MainGym - Mandeville - PriceCenter - MAE - CSE - Warren
+Rady - ERC - PangeaParking - HopkinsParking - SolisHall - PriceCenter - CenterHall - BioMedLib
+Sixth - MAE - PriceCenter - Geisel - HopkinsParking - PangeaParking - ERC - Rady
