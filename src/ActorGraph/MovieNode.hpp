@@ -14,7 +14,6 @@ class ActorNode;
 class MovieNode {
   public:
     string title;
-
     vector<ActorNode*> actorsList;
 
     MovieNode(string movieTitle) : title(movieTitle) {}

@@ -5,6 +5,7 @@
 #ifndef ACTORGRAPH_HPP
 #define ACTORGRAPH_HPP
 
+#include <limits.h>
 #include <iostream>
 #include <list>
 #include <unordered_map>

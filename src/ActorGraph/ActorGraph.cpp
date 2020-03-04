@@ -3,6 +3,7 @@
  */
 
 #include "ActorGraph.hpp"
+#include <bits/stdc++.h>
 #include <math.h>
 #include <fstream>
 #include <iostream>
@@ -94,41 +95,51 @@ bool ActorGraph::buildGraphFromFile(const char* filename) {
 void ActorGraph::BFS(const string& fromActor, const string& toActor,
                      string& shortestPath) {
     queue<ActorNode*> explored;  // list to store nodes we have traversed
-    queue<ActorNode*> prev;      // map to store all nodes that were traversed
 
     // if actors do not exist, return, don't change shortestPath, should be ""
     ActorNode* actor1 = actorsMap[fromActor];
     ActorNode* actor2 = actorsMap[toActor];
-    ActorNode* curr;
+
     if (actor1 == nullptr || actor2 == nullptr) {
         return;
     }
-    // if we are here, both actors exist
+    ActorNode* currActor;
+    ActorNode* neighbor;
+
+    actor1->dist = 0;
+
     explored.push(actor1);
+
     while (!explored.empty()) {
-        curr = explored.front();
-        if (curr == actor2) {
+        currActor = explored.front();
+
+        if (currActor == actor2) {
             break;  // we are done
         }
-        curr->visited = true;
+        currActor->visited = true;
         explored.pop();
 
         // for all neighbors of curr
-        for (int i = 0; i < curr->movieList.size(); i++) {
-            MovieNode* currMovie = curr->movieList[i];
-            for (int j = 0; j < currMovie->actorsList.size(); j++) {
-                if (currMovie->actorsList[j] != curr) {  // avoid self loops
-                    ActorNode* currActor = currMovie->actorsList[j];
-                    if (!currActor->visited) {
-                        currActor->prev = curr;
-                        explored.push(currActor);
-                        currActor->path = currMovie;
+
+        for (unsigned int i = 0; i < currActor->movieList.size(); i++) {
+            MovieNode* currMovie = currActor->movieList[i];
+
+            for (unsigned int j = 0; j < currMovie->actorsList.size(); j++) {
+                if (currMovie->actorsList[j] !=
+                    currActor) {  // avoid self loops
+
+                    neighbor = currMovie->actorsList[j];
+                    if (!neighbor->visited && neighbor->dist == INT_MAX) {
+                        neighbor->dist = currActor->dist + 1;
+                        neighbor->prev = currActor;
+                        explored.push(neighbor);
+                        neighbor->path = currMovie;
                     }
                 }
             }
         }
     }
-    if (curr != actor2) {  // no path exists
+    if (currActor != actor2) {  // no path exists
         return;
     }
     if (actor2->prev) {
@@ -140,6 +151,7 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
         i->second->visited = false;
         i->second->prev = 0;
         i->second->path = 0;
+        i->second->dist = INT_MAX;
     }
 }
 void ActorGraph::buildPath(ActorNode* curr, string& shortestPath) {
