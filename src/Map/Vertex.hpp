@@ -22,7 +22,9 @@ class Vertex {
     // TODO: you may add more member variables here
     int dist = INT_MAX;
     Vertex* prev = 0;
+    Vertex* parent = this;
     Edge* path = 0;
+    int vertexCount = 0;
     bool visited = false;
     /* The constructor that creates a new vertex */
     Vertex(const string& name, float x, float y) : name(name), x(x), y(y) {}

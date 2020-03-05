@@ -62,6 +62,8 @@ class Map {
     void buildPath(Vertex* curr, vector<Vertex*>& shortestPath);
     /* TODO */
     void findMST(vector<Edge*>& MST);
+    Vertex* find(Vertex* vertex);
+    void Union(Vertex* parent, Vertex* branch);
 
     /* TODO */
     void crucialRoads(vector<Edge*>& roads);
