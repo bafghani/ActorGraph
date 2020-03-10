@@ -233,7 +233,16 @@ void Map::Union(Vertex* parent, Vertex* branch) {
 }
 
 /* TODO */
-void Map::crucialRoads(vector<Edge*>& roads) {}
+void Map::crucialRoads(vector<Edge*>& roads) {
+    for (unsigned int i = 0; i < undirectedEdges.size(); i++) {
+        Vertex* parent1 = find(undirectedEdges[i]->source);
+        Vertex* parent2 = find(undirectedEdges[i]->target);
+        if (parent1 == parent2) {
+            roads.push_back(undirectedEdges[i]);
+        }
+        Union(parent1, parent2);
+    }
+}
 
 /* Destructor of Map graph */
 Map::~Map() {

@@ -1,0 +1,11 @@
+WEIGHTED SHORTEST PATH IN MAP
+our solution: ./build/src/map.exe --sp data/map1xy.txt data/map1roads.txt data/map1pairs.txt shortest_path.txt
+ref solution: ./ref-map.exe --sp data/map1xy.txt data/map1roads.txt data/map1pairs.txt ref_shortest_path.txt
+
+MINIMUM SPANNING TREE
+our solution: ./build/src/map.exe --mst data/map1xy.txt data/map1roads.txt mst.txt
+ref solution: ./ref-map.exe --mst data/map1xy.txt data/map1roads.txt ref_mst.txt
+
+CRUCIAL ROADS
+our solution: ./build/src/map.exe --cr data/map1xy.txt data/map1roads.txt crucial_roads.txt
+ref solution: ./ref-map.exe --cr data/map1xy.txt data/map1roads.txt ref_crucial_roads.txt
