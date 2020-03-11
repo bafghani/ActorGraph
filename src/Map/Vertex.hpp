@@ -26,6 +26,7 @@ class Vertex {
     Edge* path = 0;
     int vertexCount = 0;
     bool visited = false;
+
     /* The constructor that creates a new vertex */
     Vertex(const string& name, float x, float y) : name(name), x(x), y(y) {}
 };

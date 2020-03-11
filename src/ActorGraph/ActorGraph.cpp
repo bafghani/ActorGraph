@@ -95,7 +95,13 @@ bool ActorGraph::buildGraphFromFile(const char* filename) {
 void ActorGraph::BFS(const string& fromActor, const string& toActor,
                      string& shortestPath) {
     queue<ActorNode*> explored;  // list to store nodes we have traversed
-
+    // set all nodes back to unvisited
+    for (auto i = actorsMap.begin(); i != actorsMap.end(); ++i) {
+        i->second->visited = false;
+        i->second->prev = 0;
+        i->second->path = 0;
+        i->second->dist = INT_MAX;
+    }
     // if actors do not exist, return, don't change shortestPath, should be ""
     ActorNode* actor1 = actorsMap[fromActor];
     ActorNode* actor2 = actorsMap[toActor];
@@ -146,13 +152,6 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
         buildPath(actor2, shortestPath);
     }
     // if we are here then path does not exist
-    // set all nodes back to unvisited
-    for (auto i = actorsMap.begin(); i != actorsMap.end(); ++i) {
-        i->second->visited = false;
-        i->second->prev = 0;
-        i->second->path = 0;
-        i->second->dist = INT_MAX;
-    }
 }
 void ActorGraph::buildPath(ActorNode* curr, string& shortestPath) {
     if (curr->prev == 0) {

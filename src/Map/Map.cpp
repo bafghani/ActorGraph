@@ -91,6 +91,13 @@ bool Map::addEdge(const string& name1, const string& name2) {
 /* TODO */
 void Map::Dijkstra(const string& from, const string& to,
                    vector<Vertex*>& shortestPath) {
+    // reset vertices data
+    for (unsigned int i = 0; i < vertices.size(); i++) {
+        vertices[i]->visited = false;
+        vertices[i]->prev = 0;
+        vertices[i]->path = 0;
+        vertices[i]->dist = INT_MAX;
+    }
     priority_queue<Vertex*, vector<Vertex*>, VertexCmp> explored;
     Vertex* src = vertices[vertexId[from]];
     Vertex* dest = vertices[vertexId[to]];
@@ -136,13 +143,6 @@ void Map::Dijkstra(const string& from, const string& to,
     if (dest->prev) {  // path exists, build it
         buildPath(dest, shortestPath);
     }
-    // reset vertices data
-    for (auto i = 0; i < vertices.size(); i++) {
-        vertices[i]->visited = false;
-        vertices[i]->prev = 0;
-        vertices[i]->path = 0;
-        vertices[i]->dist = INT_MAX;
-    }
 }
 
 void Map::buildPath(Vertex* curr, vector<Vertex*>& shortestPath) {
@@ -164,6 +164,13 @@ void Map::findMST(vector<Edge*>& MST) {
     unsigned int totalWeight = 0;
     unsigned int edgeCount = 0;
     unsigned int vertexCount = 0;
+    // reset vertices data
+    for (unsigned int i = 0; i < vertices.size(); i++) {
+        vertices[i]->visited = false;
+        vertices[i]->prev = 0;
+        vertices[i]->path = 0;
+        vertices[i]->dist = INT_MAX;
+    }
     // fill PQ
     for (unsigned int i = 0; i < vertices.size(); i++) {
         curr = vertices[i];
@@ -234,13 +241,32 @@ void Map::Union(Vertex* parent, Vertex* branch) {
 
 /* TODO */
 void Map::crucialRoads(vector<Edge*>& roads) {
-    for (unsigned int i = 0; i < undirectedEdges.size(); i++) {
-        Vertex* parent1 = find(undirectedEdges[i]->source);
-        Vertex* parent2 = find(undirectedEdges[i]->target);
-        if (parent1 == parent2) {
-            roads.push_back(undirectedEdges[i]);
+    unsigned int count = 0;
+    vector<int> pre(vertices.size(), 0);
+    vector<int> low(vertices.size(), 0);
+    dfs(pre, low, count, roads, 0, 0);
+}
+void Map::dfs(vector<int>& pre, vector<int>& low, unsigned int count,
+              vector<Edge*>& roads, unsigned int preIdx, unsigned int lowIdx) {
+    count++;
+    pre[preIdx] = low[preIdx] = count;
+    Vertex* curr = vertices[preIdx];
+    for (unsigned int i = 0; i < curr->outEdges.size(); i++) {
+        Edge* currEdge = curr->outEdges[i];
+        unsigned int nextIdx = vertexId[currEdge->target->name];
+        if (pre[nextIdx] == 0) {
+            dfs(pre, low, count, roads, nextIdx, preIdx);
+            if (low[nextIdx] < low[preIdx]) {
+                low[preIdx] = low[nextIdx];
+            }
+            if (low[nextIdx] > pre[preIdx]) {
+                roads.push_back(currEdge);
+            }
+        } else if (nextIdx != lowIdx) {
+            if (pre[nextIdx] < low[preIdx]) {
+                low[preIdx] = pre[nextIdx];
+            }
         }
-        Union(parent1, parent2);
     }
 }
 

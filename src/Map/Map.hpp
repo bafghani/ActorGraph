@@ -67,7 +67,8 @@ class Map {
 
     /* TODO */
     void crucialRoads(vector<Edge*>& roads);
-
+    void dfs(vector<int>& pre, vector<int>& low, unsigned int count,
+             vector<Edge*>& roads, unsigned int preIdx, unsigned int lowIdx);
     /* Destructor of Map graph */
     ~Map();
 };
