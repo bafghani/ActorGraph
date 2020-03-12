@@ -19,7 +19,7 @@ class Vertex {
     vector<Edge*> outEdges;  // the adjacency list of this vertex that contains
                              // all outgoing edges
 
-    // TODO: you may add more member variables here
+    // you may add more member variables here
     int dist = INT_MAX;
     Vertex* prev = 0;
     Vertex* parent = this;

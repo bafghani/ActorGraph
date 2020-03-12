@@ -1,5 +1,10 @@
 /**
- * TODO: add file header
+ * This file creates a graph where actors are vertices
+ * and movies are edges. Actors are connected by an edge
+ * if they both played in the same movie
+ *
+ * Authors: Bijan Afghani
+ *          Joseph Mattingly
  */
 
 #include "ActorGraph.hpp"
@@ -15,7 +20,7 @@
 
 using namespace std;
 
-/* TODO */
+/* ActorGraph constructor */
 ActorGraph::ActorGraph() {}
 
 /* Build the actor graph from dataset file.
@@ -57,7 +62,7 @@ bool ActorGraph::buildGraphFromFile(const char* filename) {
         string title(record[1]);
         int year = stoi(record[2]);
 
-        // TODO: we have an actor/movie relationship to build the graph
+        // we have an actor/movie relationship to build the graph
 
         ActorNode* currActor = actorsMap[actor];  // checks for actor in map
         if (currActor == nullptr) {
@@ -94,7 +99,7 @@ bool ActorGraph::buildGraphFromFile(const char* filename) {
 /* TODO */
 void ActorGraph::BFS(const string& fromActor, const string& toActor,
                      string& shortestPath) {
-    queue<ActorNode*> explored;  // list to store nodes we have traversed
+    queue<ActorNode*> traversed;  // list to store nodes we have traversed
     // set all nodes back to unvisited
     for (auto i = actorsMap.begin(); i != actorsMap.end(); ++i) {
         i->second->visited = false;
@@ -114,32 +119,40 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
 
     actor1->dist = 0;
 
-    explored.push(actor1);
+    traversed.push(actor1);
 
-    while (!explored.empty()) {
-        currActor = explored.front();
+    while (!traversed.empty()) {
+        currActor = traversed.front();
 
         if (currActor == actor2) {
             break;  // we are done
         }
         currActor->visited = true;
-        explored.pop();
+        traversed.pop();
 
         // for all neighbors of curr
 
         for (unsigned int i = 0; i < currActor->movieList.size(); i++) {
-            MovieNode* currMovie = currActor->movieList[i];
+            MovieNode* currMovie =
+                currActor->movieList[i];  // each of currActors Movies will be
+                                          // stored here
 
             for (unsigned int j = 0; j < currMovie->actorsList.size(); j++) {
                 if (currMovie->actorsList[j] !=
                     currActor) {  // avoid self loops
 
-                    neighbor = currMovie->actorsList[j];
-                    if (!neighbor->visited && neighbor->dist == INT_MAX) {
-                        neighbor->dist = currActor->dist + 1;
-                        neighbor->prev = currActor;
-                        explored.push(neighbor);
-                        neighbor->path = currMovie;
+                    neighbor =
+                        currMovie->actorsList[j];  // neighbor = an actor who
+                                                   // played in the currentMovie
+                    if (!neighbor->visited &&
+                        neighbor->dist ==
+                            INT_MAX) {  // if neighbor hasnt been visited
+                        neighbor->dist =
+                            currActor->dist + 1;     // increment its distance
+                        neighbor->prev = currActor;  // set its parent actor
+                        traversed.push(neighbor);    // add to queue
+                        neighbor->path =
+                            currMovie;  // set last movie edge traversed
                     }
                 }
             }
@@ -148,16 +161,19 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
     if (currActor != actor2) {  // no path exists
         return;
     }
-    if (actor2->prev) {
+    if (actor2->prev) {  // path exists
         buildPath(actor2, shortestPath);
     }
     // if we are here then path does not exist
 }
 void ActorGraph::buildPath(ActorNode* curr, string& shortestPath) {
-    if (curr->prev == 0) {
+    if (curr->prev == 0) {  // base case is we are at beginning of path, in this
+                            // case no recursion necessary
         shortestPath += "(" + curr->actorName + ")";
         return;
     } else {
+        // recursively builds the path in reverse by traversing each actors prev
+        // actor
         buildPath(curr->prev, shortestPath);
         shortestPath +=
             "--[" + curr->path->title + "]-->(" + curr->actorName + ")";

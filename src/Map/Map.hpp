@@ -48,25 +48,31 @@ class Map {
     bool addEdge(const string& name1, const string& name2);
 
   public:
-    /* TODO */
+    /* Map constructor */
     Map();
 
     /* Build the map graph from vertex and edge files */
     bool buildMapFromFile(const string& vertexFileName,
                           const string& edgeFileName);
 
-    /* TODO */
+    /* Finds the shortest weighted path from one destination to another if it
+     * exists */
     void Dijkstra(const string& from, const string& to,
                   vector<Vertex*>& shortestPath);
-
+    /* helper method to recurse through each actors previous actor to build the
+    shortestPath string */
     void buildPath(Vertex* curr, vector<Vertex*>& shortestPath);
-    /* TODO */
+    /* finds the minimum weight spanning tree of the given graph */
     void findMST(vector<Edge*>& MST);
+    /* determines which branch of the graph a certain vertex is in */
     Vertex* find(Vertex* vertex);
-    void Union(Vertex* parent, Vertex* branch);
+    /* joins two vertices */
+    void Union(Vertex* parent, Vertex* root);
 
-    /* TODO */
+    /* Finds all bridges, or edges not contained in any cycles, of the given
+     * graph */
     void crucialRoads(vector<Edge*>& roads);
+    /* Depth First Search helper method for cycle detection */
     void dfs(vector<int>& pre, vector<int>& low, unsigned int count,
              vector<Edge*>& roads, unsigned int preIdx, unsigned int lowIdx);
     /* Destructor of Map graph */
