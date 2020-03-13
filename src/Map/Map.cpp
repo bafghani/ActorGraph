@@ -200,6 +200,7 @@ void Map::findMST(vector<Edge*>& MST) {
                     new Edge(curr, neighbor,
                              currEdge->weight);  // these edges are never
                                                  // deleted, may cause mem leak
+                undirectedEdges.push_back(newEdge);
                 edgesTraversed.push(newEdge);
             }
         }
