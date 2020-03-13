@@ -99,7 +99,7 @@ bool ActorGraph::buildGraphFromFile(const char* filename) {
 /* TODO */
 void ActorGraph::BFS(const string& fromActor, const string& toActor,
                      string& shortestPath) {
-    queue<ActorNode*> traversed;  // list to store nodes we have traversed
+    queue<ActorNode*> explored;  // list to store nodes we have traversed
     // set all nodes back to unvisited
     for (auto i = actorsMap.begin(); i != actorsMap.end(); ++i) {
         i->second->visited = false;
@@ -119,16 +119,15 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
 
     actor1->dist = 0;
 
-    traversed.push(actor1);
+    explored.push(actor1);
 
-    while (!traversed.empty()) {
-        currActor = traversed.front();
+    while (!explored.empty()) {
+        currActor = explored.front();
 
         if (currActor == actor2) {
             break;  // we are done
         }
-        currActor->visited = true;
-        traversed.pop();
+        explored.pop();
 
         // for all neighbors of curr
 
@@ -144,15 +143,14 @@ void ActorGraph::BFS(const string& fromActor, const string& toActor,
                     neighbor =
                         currMovie->actorsList[j];  // neighbor = an actor who
                                                    // played in the currentMovie
-                    if (!neighbor->visited &&
-                        neighbor->dist ==
-                            INT_MAX) {  // if neighbor hasnt been visited
+                    if (neighbor->dist ==
+                        INT_MAX) {  // if neighbor hasnt been visited
                         neighbor->dist =
                             currActor->dist + 1;     // increment its distance
                         neighbor->prev = currActor;  // set its parent actor
-                        traversed.push(neighbor);    // add to queue
                         neighbor->path =
                             currMovie;  // set last movie edge traversed
+                        explored.push(neighbor);  // add to queue
                     }
                 }
             }
